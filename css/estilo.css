@@ -1,0 +1,130 @@
+/*RESETEO GENERAL*/
+
+li {
+  list-style: none;
+}
+
+form#formu_operacion {
+  display: flex;
+  flex-flow: column nowrap;
+  text-align: center;
+  background-color: burlywood;
+  width: 250px;
+  margin: 3vh 40vw;
+  padding: 25px;
+  border-radius: 3px;
+  border: 1px Solid white;
+}
+
+form#formu_cheques {
+  display: none;
+  flex-flow: row wrap;
+  text-align: center;
+  background-color: burlywood;
+  margin: 1vh 1vw;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px Solid white;
+}
+
+table {
+  background-color: white;
+}
+
+label,
+input,
+button,
+select {
+  margin: 2px;
+  padding: 2px;
+}
+
+label,
+a {
+  color: blue;
+}
+
+a:hover {
+  color: blueviolet;
+}
+
+button {
+  /* margin-top: 25px; */
+  color: green;
+  border: 2px solid green;
+  border-radius: 4%;
+}
+
+header,
+footer {
+  text-align: center;
+}
+
+#Pantalla {
+  background-color: royalblue;
+  border-radius: 6px;
+}
+
+#error {
+  background-color: burlywood;
+  border-radius: 3px;
+  width: max-content;
+  padding: 0 9px;
+}
+
+#caja_ingreso {
+  width: max-content;
+  padding: 10px;
+  margin: 10vw 0;
+  border-radius: 3px;
+  border: 1px Solid white;
+}
+
+#tabla_feriados {
+  margin: 10px;
+  width: max-content;
+}
+
+/*CLASES*/
+
+.cartelTitulo {
+  display: flex;
+  flex-flow: column wrap;
+  background-color: royalblue;
+  text-align: center;
+  justify-content: center;
+  margin-top: 1vw;
+  font-size: 2rem;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.3);
+  background: royalblue;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
+    0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.caja_op {
+  border-radius: 3rem;
+  border: 1px solid red;
+  background-color: aliceblue;
+  margin: 3px;
+  padding: 3px;
+  width: 20vw;
+}
+
+.caja_cheques {
+  border-radius: 3rem;
+  border: 1px solid yellow;
+  background-color: aliceblue;
+  margin: 3px;
+  padding: 3px;
+  width: 25vw;
+}
+
+.caja_total {
+  border-radius: 3rem;
+  border: 1px solid blueviolet;
+  background-color: aliceblue;
+  margin: 3px;
+  padding: 3px;
+  width: 30vw;
+}
