@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Desafio Clase 14 y 3era entrega - Proyecto Integrador</title>
+    <title>Proyecto Integrador Final</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -19,9 +19,7 @@
   <body id="Pantalla" class="container-fluid">
     <header>
       <h1>CARGA DE OPERACION</h1>
-      <h2 class="cartelTitulo">
-        Desafio Clase 14 y 3era entrega - Proyecto Integrador
-      </h2>
+      <h2 class="cartelTitulo">Proyecto Final</h2>
       <div class="text-center">
         <span id="usuario"></span>
         <span id="desconectar" class="d-none"
@@ -29,37 +27,10 @@
         >
       </div>
     </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Simulador de Creditos®</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li id="menu-nva-op" class="nav-item">
-              <a class="nav-link active" aria-current="page" href=""
-                >Nueva Operacion</a
-              >
-            </li>
-            <li id="feriados" class="nav-item">
-              <a class="nav-link" aria-current="page" href="">Feriados</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="index.html">Volver</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <nav
+      id="menu_naveg"
+      class="navbar navbar-expand-lg navbar-dark bg-dark"
+    ></nav>
     <main>
       <form id="formu_operacion">
         <label for="fechaliq">Fecha Liquidacion (MM/DD/AAAA):</label>
@@ -82,7 +53,11 @@
     <footer>
       <h2>Curso de JavaScript - Proyecto Integrador</h2>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
       integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -93,6 +68,7 @@
       integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
       crossorigin="anonymous"
     ></script>
+    <script src="./js/jquery-3.6.0.js"></script>
     <script src="./js/objetos.js"></script>
     <script src="./js/operaciones.js"></script>
     <script src="./js/dom.js"></script>

@@ -9,7 +9,7 @@ function caja_borde_color(id, color) {
 //DETECCION TIEMPO INACTIVO
 
 desconectar.onclick = () => {
-    tiempo_inactivo(50);
+    tiempo_inactivo(15);
 }
 
 var tiempo_inactivo = function (corte) {
@@ -36,7 +36,7 @@ var tiempo_inactivo = function (corte) {
     function resetear_tiempo() {
         clearTimeout(tiempo);
         if (sessionStorage.length > 1 && corte != 0) {
-            tiempo = setTimeout(deslogueo, 100000); //reemplazar por corte
+            tiempo = setTimeout(deslogueo, corte);
         }
         // 1000 milliseconds = 1 second
     }

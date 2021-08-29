@@ -1,12 +1,56 @@
 //SE RECORRE LOS ARRAY DE OBJETOS "Operaciones, Cheques y Totales"  y se construye HTML
 
-function logueo_html(){
+function logueo_html(menu_nav){
     let usuario = document.getElementById("usuario");
-    usuario.innerHTML = `Bienvenido ${sessionStorage.getItem("nomb_usu")}`;
-    let menu_activo_op = document.getElementById("menu-nva-op");
-    menu_activo_op.innerHTML = `<a class="nav-link active" aria-current="page" href="formulario.html">Nueva Operacion</a>`;
-    let menu_activo_feriados = document.getElementById("feriados");
-    menu_activo_feriados.innerHTML = `<a id="feriados" class="nav-link active" aria-current="page" href="feriados.html">Feriados</a>`;
+    let nomb_usu = sessionStorage.getItem("nomb_usu");
+    !nomb_usu ? usuario.innerHTML = `Ingresa para operar` : usuario.innerHTML = `Bienvenido ${nomb_usu}`;
+    construir_menu_nav (menu_nav);
+}
+
+function construir_login(){
+    $("#ingreso").append(`
+        <article id="caja_ingreso" class="col-8 col-md-6 col-lg-3 text-center">
+        <h3>Ingresa tu nombre para operar</h3> 
+        <input id="nombre" type="text" value="diego" /> 
+        <button type="button" id="btn_ingresar">Ingresar</button> 
+        <div id="errorNombre" class="error"></div>  </article>`
+        );
+    const menu_nav = [{"id":"menu-inicio","estado":false,"ruta":"#","nombre":"Inicio","activo":""},
+    {"id":"menu-nva_op","estado":false,"ruta":"#","nombre":"Nueva Operacion","activo":""},
+    {"id":"menu-feriados","estado":false,"ruta":"#","nombre":"Feriados","activo":""},
+    {"id":"menu-historico","estado":false,"ruta":"#","nombre":"Historico","activo":""},
+    {"id":"menu-volver","estado":false,"ruta":"#","nombre":"Volver","activo":""}
+    ];
+    logueo_html(menu_nav);
+    return(document.getElementById("btn_ingresar"))
+    };
+
+function construir_menu_nav (menu_nav){
+    let html =`<a class="navbar-brand" href="#">Simulador Creditos®</a>
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">`;
+    menu_nav.forEach(menu => {
+        html += activo_inactivo(menu.id, menu.estado, menu.ruta, menu.nombre , menu.activo);
+    });
+    html +=`</ul> </div>`;
+    $("#menu_naveg").html(html);
+    function activo_inactivo(id, estado, ruta, nombre, activo) {
+        let html;
+        estado ? html = `<li id="${id}" class="nav-item ${activo}"> <a class="nav-link" href="${ruta}">${nombre}</a> </li>` : 
+        html = `<li id="${id}" class="nav-item"> <a class="nav-link disabled" href="${ruta}" tabindex="-1" aria-disabled="true">${nombre}</a> </li>`;
+        return html;
+    }
 }
 
 function visualizar_tabla_feriados(feriados){
@@ -104,11 +148,12 @@ function construir_resultado_HTML(operac, cheques, total){
     `
     <section class="caja_op">
         <ul>
-            <li> Id Op: ${operac.op_id} </li>
-            <li> F Liq: ${operac.op_f_liq} </li>
-            <li> TNA: ${operac.op_tna} </li>
-            <li> Gastos: ${operac.op_gastos_porc} </li>
-            <li> IVA Percep: ${operac.op_iva_percep} </li>
+            <li class="d-inline flex"> F Creacion: ${operac.op_f_creacion} </li>
+            <li class="d-inline flex"> Id Op: ${operac.op_id} </li>
+            <li class="d-inline flex"> F Liq: ${operac.op_f_liq} </li>
+            <li class="d-inline flex"> TNA: ${operac.op_tna} </li>
+            <li class="d-inline flex"> Gastos: ${operac.op_gastos_porc} </li>
+            <li class="d-inline flex"> IVA Percep: ${operac.op_iva_percep} </li>
         </ul>
     </section>
     <table id="tabla${operac.op_id}" class="table table-hover table-bordered">

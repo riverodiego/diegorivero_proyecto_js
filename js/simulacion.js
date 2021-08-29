@@ -1,7 +1,13 @@
 window.onload = function() {
     desconectar.className = "";
-    logueo_html();
-    tiempo_inactivo(12000);
+    const menu_nav = [{"id":"menu-inicio","estado":true,"ruta":"index.html","nombre":"Inicio","activo":""},
+    {"id":"menu-nva_op","estado":true,"ruta":"formulario.html","nombre":"Nueva Operacion","activo":""},
+    {"id":"menu-feriados","estado":true,"ruta":"feriados.html","nombre":"Feriados","activo":""},
+    {"id":"menu-historico","estado":false,"ruta":"#","nombre":"Historico","activo":" active"},
+    {"id":"menu-volver","estado":true,"ruta":"index.html","nombre":"Volver","activo":""}
+    ];
+    logueo_html(menu_nav);
+    tiempo_inactivo(20000);
 }
 let op = [];
 let usuario = sessionStorage.getItem("nomb_usu");

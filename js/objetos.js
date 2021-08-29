@@ -1,5 +1,7 @@
 class operacion {
     constructor(op_id, op_f_liq, op_tna, op_gastos_porc, op_iva_percep){
+        this.op_f_creacion = new Date();
+        this.op_f_creacion = this.op_f_creacion.toLocaleString();
         this.op_id = op_id;
         this.op_f_liq = new Date(op_f_liq);
         this.op_tna = parseFloat(op_tna);
