@@ -24,7 +24,7 @@ function inicializar () {
     const menu_nav = [{"id":"menu-inicio","estado":true,"ruta":"index.html","nombre":"Inicio","activo":" active"},
     {"id":"menu-nva_op","estado":true,"ruta":"formulario.html","nombre":"Nueva Operacion","activo":""},
     {"id":"menu-feriados","estado":true,"ruta":"feriados.html","nombre":"Feriados","activo":""},
-    {"id":"menu-historico","estado":true,"ruta":"#","nombre":"Historico","activo":""},
+    {"id":"menu-historico","estado":true,"ruta":"simulacion.html","nombre":"Historico","activo":""},
     {"id":"menu-volver","estado":false,"ruta":"#","nombre":"Volver","activo":""}
     ];
     logueo_html(menu_nav);
@@ -37,7 +37,7 @@ function inicializar () {
             let buscar_usu = JSON.parse(localStorage.getItem(nombre.value));
             if (!buscar_usu) {
                 let cantidad_op = [];
-                cantidad_op.push({cant_op: 0});
+                cantidad_op.push({"cant_op": 0});
                 localStorage.setItem(sessionStorage.getItem("nomb_usu"), JSON.stringify(cantidad_op));
             }
             nombre.value = "";

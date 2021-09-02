@@ -146,18 +146,34 @@ function construir_cheques_HTML(cant_op, cont) {
 function construir_resultado_HTML(operac, cheques, total){
     $("#resultado").append(
     `
-    <section class="caja_op">
-        <ul>
-            <li class="d-inline flex"> F Creacion: ${operac.op_f_creacion} </li>
-            <li class="d-inline flex"> Id Op: ${operac.op_id} </li>
-            <li class="d-inline flex"> F Liq: ${operac.op_f_liq} </li>
-            <li class="d-inline flex"> TNA: ${operac.op_tna} </li>
-            <li class="d-inline flex"> Gastos: ${operac.op_gastos_porc} </li>
-            <li class="d-inline flex"> IVA Percep: ${operac.op_iva_percep} </li>
-        </ul>
-    </section>
-    <table id="tabla${operac.op_id}" class="table table-hover table-bordered">
-        <thead>
+    <table id="tabla_op${operac.op_id}" class="table table-hover table-bordered mt-3 w-75">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id Op</th>
+                <th scope="col">F Creacion</th>
+                <th scope="col">F Liq</th>
+                <th scope="col">TNA</th>
+                <th scope="col">Gatos</th>
+                <th scope="col">IVA Percep</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>    
+                <th scope="row">${operac.op_id} </th>
+                <td>${operac.op_f_creacion} </td>
+                <td>${operac.op_f_liq} </td>
+                <td> ${operac.op_tna}%</td>
+                <td> ${operac.op_gastos_porc}%</td>
+                <td> ${operac.op_iva_percep} </td>
+                <td><button type="button" id="mostrar_op${operac.op_id}" value="${operac.op_id}">Mostrar</button></td>
+                <td><button type="button" id="eliminar_op_historica${operac.op_id}" value="${operac.op_id}">Eliminar</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="tabla_detalle${operac.op_id}" class="table table-hover table-bordered d-none">
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">Id Ch</th>
                 <th scope="col">Nro Ch</th>
@@ -175,8 +191,6 @@ function construir_resultado_HTML(operac, cheques, total){
         <tbody id="lista${operac.op_id}"></tbody>
         </table>        
     `);
-    console.log("cheques");
-    console.log(cheques);
     cheques.forEach(cheq => {
         $(`#lista${operac.op_id}`).append( 
         `
@@ -210,4 +224,16 @@ function construir_resultado_HTML(operac, cheques, total){
             <td> $ ${total.total_neto} </td>
         </tr>
     `).slideDown(9000);
+    $(`#mostrar_op${operac.op_id}`).click( (e) => {
+        let tabla_detalle = $(`#tabla_detalle${operac.op_id}`);
+        if (tabla_detalle.hasClass(`d-none`)) {
+            tabla_detalle.removeClass("d-none");
+            $(`#mostrar_op${operac.op_id}`).html("Ocultar");
+        } else{
+            tabla_detalle.addClass("d-none");
+            $(`#mostrar_op${operac.op_id}`).html("Mostrar");
+        }});
+    $(`#eliminar_op_historica${operac.op_id}`).click( (e) => {
+        eliminar_op_historica(e.target.value);
+    });
 }

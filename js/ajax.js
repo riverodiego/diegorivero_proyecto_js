@@ -6,7 +6,7 @@ window.onload = function() {
     const menu_nav = [{"id":"menu-inicio","estado":true,"ruta":"index.html","nombre":"Inicio","activo":""},
     {"id":"menu-nva_op","estado":true,"ruta":"formulario.html","nombre":"Nueva Operacion","activo":""},
     {"id":"menu-feriados","estado":true,"ruta":"#","nombre":"Feriados","activo":" active"},
-    {"id":"menu-historico","estado":true,"ruta":"#","nombre":"Historico","activo":""},
+    {"id":"menu-historico","estado":true,"ruta":"simulacion.html","nombre":"Historico","activo":""},
     {"id":"menu-volver","estado":true,"ruta":"index.html","nombre":"Volver","activo":""}
     ];
     logueo_html(menu_nav);

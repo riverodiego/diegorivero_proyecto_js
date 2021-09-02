@@ -179,6 +179,35 @@ function totalizar_cheques(cant_op){
     guardar_local(usuario, JSON.stringify(op));
 }
 
+function eliminar_op_historica(e){
+    $(`#tabla_op${e}`).fadeIn(4000,function(){$(`#tabla_op${e}`).css("background-color","white")});
+    $(`#tabla_op${e}`).fadeOut(3000,function(){$(`#tabla_op${e}`).remove()});
+    let usuario = sessionStorage.getItem("nomb_usu");
+    let operaciones = [];
+    let operaciones_aux = [];
+    operaciones = JSON.parse(localStorage.getItem(usuario));
+    //operaciones[0].cant_op = operaciones[0].cant_op - 1;
+    console.log("operaciones0");
+    console.log(operaciones);
+    console.log(e);
+    
+    operaciones = operaciones.filter(elem => elem.op_id != e);
+    operaciones = operaciones.filter(elem => elem.total_id != e);
+    operaciones.forEach((elem) => {
+        if(elem.ch_id) {
+            let a = elem.ch_id;
+            if (a.substring(0,3) != "op"+e) { operaciones_aux.push(elem);}
+            } else {
+                operaciones_aux.push(elem);
+            }
+        });
+    console.log("operaciones");
+    console.log(operaciones_aux);
+    localStorage.removeItem(usuario);
+    guardar_local(usuario, JSON.stringify(operaciones_aux));
+}
+
+
 //FUNCIONES DE CALCULOS aux_chequeIARES
 
 function calc_dias_int(dia1, dia2){
