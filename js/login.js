@@ -9,8 +9,6 @@ neta final del credito al cliente*/
 
 //PUNTO DE PARTIDA DEL LOGIN
 
-console.log(sessionStorage.length);
-
 let btn_ingresar;
 
 let desconectar = document.getElementById("desconectar");
@@ -37,11 +35,12 @@ function inicializar () {
             let buscar_usu = JSON.parse(localStorage.getItem(nombre.value));
             if (!buscar_usu) {
                 let cantidad_op = [];
-                cantidad_op.push({"cant_op": 0});
+                cantidad_op.push({"contador_op": 0, "stock_op": 0});
                 localStorage.setItem(sessionStorage.getItem("nomb_usu"), JSON.stringify(cantidad_op));
             }
             nombre.value = "";
             inicializar ();
-            tiempo_inactivo(9000);
+            tiempo_inactivo(120000);
+            depurar_ops_sin_totales();
         };
     }

@@ -47,7 +47,7 @@ class cheque{
 
 class totalizar{
     constructor(id){
-        this.total_id = id;
+        this.total_id = parseInt(id);
         this.total_ch_imp = 0;
         this.total_imp_int = 0;
         this.total_iva_10_5 = 0;

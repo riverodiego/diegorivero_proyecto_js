@@ -10,7 +10,7 @@ window.onload = function() {
     {"id":"menu-volver","estado":true,"ruta":"index.html","nombre":"Volver","activo":""}
     ];
     logueo_html(menu_nav);
-    tiempo_inactivo(12000);
+    tiempo_inactivo(120000);
 }
 
 const URLJSON = "https://raw.githubusercontent.com/riverodiego/json/main/feriados.json"

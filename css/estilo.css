@@ -8,7 +8,7 @@ form#formu_operacion {
   display: flex;
   flex-flow: column nowrap;
   text-align: center;
-  background-color: burlywood;
+  background-color: rgb(167, 164, 164);
   width: 250px;
   margin: 3vh 40vw;
   padding: 25px;
@@ -18,9 +18,8 @@ form#formu_operacion {
 
 form#formu_cheques {
   display: none;
-  flex-flow: row wrap;
-  text-align: center;
-  background-color: burlywood;
+  flex-flow: column nowrap;
+  background-color: rgb(167, 164, 164);
   margin: 1vh 1vw;
   padding: 10px;
   border-radius: 3px;
@@ -39,7 +38,10 @@ select {
   padding: 2px;
 }
 
-label,
+label {
+  color: rgb(41, 41, 248);
+}
+
 a {
   color: blue;
 }
@@ -49,10 +51,10 @@ a:hover {
 }
 
 button {
-  /* margin-top: 25px; */
-  color: green;
-  border: 2px solid green;
-  border-radius: 4%;
+  color: rgb(63, 63, 245);
+  border: 2px solid rgb(63, 63, 245);
+  background-color: rgb(198, 198, 243);
+  border-radius: 6px;
 }
 
 header,
@@ -61,7 +63,7 @@ footer {
 }
 
 #Pantalla {
-  background-color: royalblue;
+  background-color: rgb(112, 112, 112);
   border-radius: 6px;
 }
 
@@ -85,19 +87,23 @@ footer {
   width: max-content;
 }
 
+#bienvenida {
+  color: white;
+}
+
 /*CLASES*/
 
 .cartelTitulo {
   display: flex;
   flex-flow: column wrap;
-  background-color: royalblue;
+  background-color: rgb(112, 112, 112);
   text-align: center;
   justify-content: center;
   margin-top: 1vw;
   font-size: 2rem;
   border-radius: 0;
   color: rgba(255, 255, 255, 0.3);
-  background: royalblue;
+  background: rgb(112, 112, 112);
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
     0 0 10px rgba(255, 255, 255, 0.5);
 }
@@ -127,4 +133,43 @@ footer {
   margin: 3px;
   padding: 3px;
   width: 30vw;
+}
+
+.alerta {
+  background: #f8f8f8;
+  position: fixed;
+  top: 45vh;
+  bottom: 0;
+  left: 30vw;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mensajeria {
+  background: #f8f8f8;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  font-family: "Monserrat", sans-serif;
+  padding: 10px;
+  text-align: center;
+  width: 250px;
+  height: 100px;
+}
+
+.idcheque {
+  width: 80px;
+}
+
+.chequenro {
+  width: 100px;
+}
+
+.fecha {
+  width: 90px;
+}
+
+.importe {
+  width: 110px;
 }

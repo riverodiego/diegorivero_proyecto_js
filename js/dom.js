@@ -74,26 +74,69 @@ function visualizar_tabla_feriados(feriados){
         `)});
 }
 
-function construir_cheques_HTML(cant_op, cont) {
-    let contador = "op"+ cant_op + "ch" + cont;
+function construir_operacion_HTML(){
+    $("#formu_operacion").css('display', 'flex');
+    $("#formu_operacion").append(`
+        <label for="idop">Id Op:</label>
+        <input type="text" id="op_id" class="text-center" name="idop" value="" disabled=""/>
+        <label for="fechaliq">Fecha Liquidacion:</label>
+        <input type="text" id="op_fliq" class="text-center" name="fechaliq" value="" />
+        <label for="tasa">TNA (%): </label>
+        <input type="text" id="op_tna" class="text-center" name="tasa" value="" />
+        <label for="gastos">GASTOS (%): </label>
+        <input type="text" id="op_gastosporc" class="text-center" name="gastos" value="" />
+        <label for="ivapercep">IVA PERCEP: </label>
+        <select name="ivapercep" id="op_ivap" class="text-center">
+        <option value="seleccion" selected>Seleccione una opcion</option>
+        <option value="S">Si</option>
+        <option value="N">No</option>
+        </select>
+        <button type="button" id="btn_cargar_ch">Cargar Cheques</button>
+    `);
+    $(`#btn_cargar_ch`).click( (e) => {
+        e.preventDefault();
+        validar_operacion();
+    });
+}
+
+function construir_cheques_HTML(contador_op, cont) {
+    let contador = "op"+ contador_op + "ch" + cont;
+    $("#op_id").prop("value", contador_op);
     $("#formu_cheques").css('display', 'flex');
     $("#formu_cheques").append(`
     <div id="caja_ch${contador}">
-    <span id="ch_id${contador}"> Id ${contador}</span>
-    <label for="chnro">Id Cheque:</label>
-    <input type="text" id="ch_nro${contador}" name="chnro" value="111"/>
-    <label for="chfvto">F Vto (MM/DD/AAAA): </label>
-    <input type="text" id="ch_f_vto${contador}" name="chfvto" value="10/30/2021"/>
+    <label for="idch">Id Ch:</label>
+    <input type="text" id="ch_id${contador}" class="idcheque" name="idch" value="${contador}" disabled=""/>
+    <label for="chnro">Nro Ch:</label>
+    <input type="text" id="ch_nro${contador}" class="chequenro" name="chnro" value=""/>
+    <label for="chfvto">F Vto: </label>
+    <input type="text" id="ch_f_vto${contador}" class="fecha" name="chfvto" value=""/>
     <label for="impch">Importe: </label>
-    <input type="text" id="imp_ch${contador}" name="impch" value="250000"/>
+    <input type="text" id="imp_ch${contador}" class="importe" name="impch" value=""/>
     <button type="button" id="mas_ch${contador}" value="${contador}">Agregar Ch</button>
-    <button type="button" id="procesar_ch${contador}" value="${contador}">Finalizar Carga</button>
+    </div>
+    <div id="caja_confirmar_op${contador}" class="text-center">
+    <button type="button" id="confirmar_op${contador}" value="${contador_op}">Confirmar Op</button>
+    <button type="button" id="cancelar_op${contador}" value="${contador_op}">Cancelar Op</button>
     </div>
     `);
-    $(`#procesar_ch${contador}`).click((e) => {
+    $(`#confirmar_op${contador}`).click((e) => {
         e.preventDefault();
-        totalizar_cheques(cant_op);
-        location.href = "simulacion.html";
+        if (cont > 1){
+            totalizar_cheques(e.target.value);
+            efecto_desaparecer("formu_operacion","");
+            efecto_desaparecer("formu_cheques","");
+            setTimeout(function () {location.href = "simulacion.html"},2000);
+        }else {
+            alerta("DEBE INGRESAR 1 CHEQUE PARA CONFIRMAR", 300);
+        }
+    });
+    $(`#cancelar_op${contador}`).click((e) => {
+        e.preventDefault();
+        eliminar_op_formulario(e.target.value);
+        efecto_desaparecer("formu_operacion","");
+        efecto_desaparecer("formu_cheques","");
+        setTimeout(function () {location.href = "index.html"},2000);
     });
     $(`#mas_ch${contador}`).click((e) => {
         e.preventDefault();
@@ -103,7 +146,9 @@ function construir_cheques_HTML(cant_op, cont) {
         if (validar_cheque(e.target.value,si_agrega)==true){
             let contador = e.target.value;
             $(`#mas_ch${contador}`).remove();
-            $(`#procesar_ch${contador}`).remove();
+            $(`#confirmar_op${contador}`).remove();
+            $(`#cancelar_op${contador}`).remove();
+            $(`#caja_confirmar_op${contador}`).remove();
             $(`#ch_nro${contador}`).prop('disabled',true);
             $(`#ch_f_vto${contador}`).prop('disabled',true);
             $(`#imp_ch${contador}`).prop('disabled',true);
@@ -112,7 +157,6 @@ function construir_cheques_HTML(cant_op, cont) {
             <button type="button" id="editar_ch${contador}"  value="${contador}">Editar Ch</button>
             <button type="button" id="confirmar_ch${contador}"  value="${contador}">Confirmar Ch</button>
             `);
-            construir_cheques_HTML(cant_op, parseInt(cont)+1);
             $(`#eliminar_ch${contador}`).click((e) => {
                 e.preventDefault();
                 eliminar_cheque(e.target.value);
@@ -139,6 +183,7 @@ function construir_cheques_HTML(cant_op, cont) {
                     };
                 });
             });
+        construir_cheques_HTML(contador_op, parseInt(cont)+1);
         };
     });
 };
@@ -198,14 +243,14 @@ function construir_resultado_HTML(operac, cheques, total){
             <th scope="row">${cheq.ch_id} </th>
             <td>${cheq.ch_nro} </td>
             <td>${cheq.ch_f_vto} </td>
-            <td>$ ${cheq.ch_importe} </td>
+            <td>${cheq.ch_importe} </td>
             <td> ${cheq.ch_dias_int} </td>
-            <td> $ ${cheq.ch_imp_int} </td>
-            <td> $ ${cheq.ch_iva_10_5} </td>
-            <td> $ ${cheq.ch_iva_1_5} </td>
-            <td> $ ${cheq.ch_gastos_imp} </td>
-            <td> $ ${cheq.ch_iva_21} </td>
-            <td> $ ${cheq.ch_neto} </td>
+            <td> ${cheq.ch_imp_int} </td>
+            <td> ${cheq.ch_iva_10_5} </td>
+            <td> ${cheq.ch_iva_1_5} </td>
+            <td> ${cheq.ch_gastos_imp} </td>
+            <td> ${cheq.ch_iva_21} </td>
+            <td> ${cheq.ch_neto} </td>
         </tr>
         `)});
         $(`#lista${operac.op_id}`).append( 
@@ -214,14 +259,14 @@ function construir_resultado_HTML(operac, cheques, total){
             <th scope="row">TOTALES</th>
             <td> </td>
             <td> </td>
-            <td> $ ${total.total_ch_imp} </td>
+            <td> ${total.total_ch_imp} </td>
             <td> </td>
-            <td> $ ${total.total_imp_int} </td>
-            <td> $ ${total.total_iva_10_5} </td>
-            <td> $ ${total.total_iva_1_5} </td>
-            <td> $ ${total.total_gastos_imp} </td>
-            <td> $ ${total.total_iva_21} </td>
-            <td> $ ${total.total_neto} </td>
+            <td> ${total.total_imp_int} </td>
+            <td> ${total.total_iva_10_5} </td>
+            <td> ${total.total_iva_1_5} </td>
+            <td> ${total.total_gastos_imp} </td>
+            <td> ${total.total_iva_21} </td>
+            <td> ${total.total_neto} </td>
         </tr>
     `).slideDown(9000);
     $(`#mostrar_op${operac.op_id}`).click( (e) => {

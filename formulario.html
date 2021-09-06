@@ -17,10 +17,11 @@
     <link rel="stylesheet" href="./css/estilo.css" />
   </head>
   <body id="Pantalla" class="container-fluid">
+    <div id="mensajeria" class="alerta d-none"></div>
     <header>
       <h1>CARGA DE OPERACION</h1>
       <h2 class="cartelTitulo">Proyecto Final</h2>
-      <div class="text-center">
+      <div id="bienvenida" class="text-center">
         <span id="usuario"></span>
         <span id="desconectar" class="d-none"
           ><a href="index.html">Logoff</a></span
@@ -32,21 +33,7 @@
       class="navbar navbar-expand-lg navbar-dark bg-dark"
     ></nav>
     <main>
-      <form id="formu_operacion">
-        <label for="fechaliq">Fecha Liquidacion (MM/DD/AAAA):</label>
-        <input type="text" id="op_fliq" name="fechaliq" value="10/10/2021" />
-        <label for="tasa">TNA (%): </label>
-        <input type="text" id="op_tna" name="tasa" value="40" />
-        <label for="gastos">GASTOS (%): </label>
-        <input type="text" id="op_gastosporc" name="gastos" value="1" />
-        <label for="ivapercep">IVA PERCEP: </label>
-        <select name="ivapercep" id="op_ivap">
-          <option value="seleccion">Seleccione una opcion</option>
-          <option value="S" selected>Si</option>
-          <option value="N">No</option>
-        </select>
-        <button type="submit" id="btn_cargar_ch">Cargar Cheques</button>
-      </form>
+      <form id="formu_operacion"></form>
       <form id="formu_cheques"></form>
       <div id="error"></div>
     </main>
@@ -70,8 +57,8 @@
     ></script>
     <script src="./js/jquery-3.6.0.js"></script>
     <script src="./js/objetos.js"></script>
-    <script src="./js/operaciones.js"></script>
     <script src="./js/dom.js"></script>
+    <script src="./js/operaciones.js"></script>
     <script src="./js/formulario.js"></script>
   </body>
 </html>

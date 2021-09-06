@@ -3,7 +3,7 @@ function guardar_local(clave, valor) {
 }
 
 function caja_borde_color(id, color) {
-    document.getElementById(id).style.border = "1px Solid " + color;
+    document.getElementById(id).style.border = "1px Solid " + color
 }
 
 //DETECCION TIEMPO INACTIVO
@@ -44,14 +44,13 @@ var tiempo_inactivo = function (corte) {
 
 //FUNCIONES PARA VALIDAR DATOS OPERACION Y CARGAR LOS CHEQUES
 
-function validarFormulario(e){
-    e.preventDefault();
+function validar_operacion(){
     let usuario = sessionStorage.getItem("nomb_usu");
     let operaciones = [];
     operaciones = JSON.parse(localStorage.getItem(usuario));
-    localStorage.removeItem(usuario);
-    operaciones[0].cant_op = parseInt(operaciones[0].cant_op) + 1;
-    let agregar_op = new operacion(operaciones[0].cant_op, "", 0, 0, "","");
+    operaciones[0].contador_op ++;
+    operaciones[0].stock_op ++;
+    let agregar_op = new operacion(operaciones[0].contador_op, "", 0, 0, "","");
     let error = document.getElementById("error");
     let fecha = new Date(document.getElementById("op_fliq").value);
     let tna = document.getElementById("op_tna").value;
@@ -62,21 +61,21 @@ function validarFormulario(e){
         agregar_op["op_f_liq"] = document.getElementById("op_fliq").value
         caja_borde_color("op_fliq","green")
     }else{
-        error.innerHTML = "Debe seleccionar una Fecha Liq valida. </br>"
+        error.innerHTML = "Debe ingresar una Fecha Liq valida Formato (MM/DD/AAAA). </br>"
         caja_borde_color("op_fliq","red")
     }
     if( tna != "" && parseFloat(tna) ){
         agregar_op["op_tna"] = document.getElementById("op_tna").value
         caja_borde_color("op_tna","green")
     }else{
-        error.innerHTML += "Debe seleccionar valor numerico en TNA. </br>"
+        error.innerHTML += "Debe ingresar valor numerico en TNA. </br>"
         caja_borde_color("op_tna","red")
     }
     if( gastos_porc != "" && parseFloat(gastos_porc) ){
         agregar_op["op_gastos_porc"] = document.getElementById("op_gastosporc").value
         caja_borde_color("op_gastosporc","green")
     }else{
-        error.innerHTML += "Debe seleccionar valor numerico en Gastos. </br>"
+        error.innerHTML += "Debe ingresar valor numerico en Gastos. </br>"
         caja_borde_color("op_gastosporc","red")
     }
     if(document.getElementById("op_ivap").value != "seleccion"){
@@ -88,9 +87,10 @@ function validarFormulario(e){
     }
     if(error.innerHTML == ""){
         operaciones.push(agregar_op);
+        localStorage.removeItem(usuario);
         guardar_local(usuario, JSON.stringify(operaciones));
         $("#formu_operacion").children().prop('disabled', true).css({"color": "grey", "border-color": "grey"});
-        construir_cheques_HTML(operaciones[0].cant_op, 1);
+        construir_cheques_HTML(operaciones[0].contador_op, 1);
     }
 }
 
@@ -98,21 +98,30 @@ function validar_cheque(e,si_agrega){
     let usuario = sessionStorage.getItem("nomb_usu");
     let operaciones = [];
     operaciones = JSON.parse(localStorage.getItem(usuario));
-    let op_id = operaciones[0].cant_op;
+    let op_id = operaciones[0].contador_op;
     let op_actual = operaciones.find(elem => elem.op_id == op_id.toString());
     let ch_actual = operaciones.find(elem => elem.ch_id == e);
     let error = $("#error");
     let fecha = new Date($(`#ch_f_vto${e}`).val());
+    let fecha_string = $(`#ch_f_vto${e}`).val();
     let ch_nro = $(`#ch_nro${e}`).val();
     let imp_ch = $(`#imp_ch${e}`).val();
     let agregar_cheque = new cheque(e, 0, "", 0); 
     error.html = "";
     error.css("color","red");
 if(fecha != "" && Date.parse(fecha)){
-    agregar_cheque["ch_f_vto"] = $(`#ch_f_vto${e}`).val();
-    caja_borde_color(`ch_f_vto${e}`,"green")
+    let plazo = calc_dias_int(op_actual.op_f_liq, fecha_string);
+    plazo = parseInt(plazo);
+    if (plazo > 0){
+        agregar_cheque["ch_f_vto"] = $(`#ch_f_vto${e}`).val();
+        caja_borde_color(`ch_f_vto${e}`,"green")
+    }else{
+        error.html = "Debe ingresar una Fecha Mayor a la Fecha de Liquidacion. </br>"
+        $("#error").html(error.html)
+        caja_borde_color(`ch_f_vto${e}`,"red")
+    }
 }else{
-    error.html = "Debe seleccionar una Fecha Vto valida. </br>"
+    error.html = "Debe ingresar una Fecha Vto valida Formato (MM/DD/AAAA). </br>"
     $("#error").html(error.html)
     caja_borde_color(`ch_f_vto${e}`,"red")
 }
@@ -120,7 +129,7 @@ if( ch_nro != "" && parseFloat(ch_nro) ){
     agregar_cheque["ch_nro"] = ch_nro;
     caja_borde_color(`ch_nro${e}`,"green")
 }else{
-    error.html += "Debe seleccionar valor numerico en Id Ch. </br>"
+    error.html += "Debe ingresar valor numerico en Id Ch. </br>"
     $("#error").html(error.html)
     caja_borde_color(`ch_nro${e}`,"red")
 }
@@ -128,7 +137,7 @@ if( imp_ch != "" && parseFloat(imp_ch) ){
     agregar_cheque["ch_importe"] = imp_ch;
     caja_borde_color(`imp_ch${e}`,"green")
 }else{
-    error.html += "Debe seleccionar valor numerico en Importe Cheque. </br>"
+    error.html += "Debe ingresar valor numerico en Importe Cheque. </br>"
     $("#error").html(error.html)
     caja_borde_color(`imp_ch${e}`,"red")
 }
@@ -146,9 +155,23 @@ if(error.html == ""){
     }
 }
 
+function efecto_desaparecer(identificador,e){
+    let identif = identificador+e;
+    $(`#${identif}`).fadeIn(3000,function(){$(`#${identif}`).css("background-color","white")});
+    $(`#${identif}`).fadeOut(2000,function(){$(`#${identif}`).remove()});
+}
+
+function alerta(mensaje, tiempo) {
+    $("#mensajeria").prop("class", "alerta");
+    $("#mensajeria").html(mensaje);
+    setTimeout(function(){
+        $(`#mensajeria`).fadeIn(3000,function(){$(`#mensajeria`).css("background-color","white")});
+        $(`#mensajeria`).fadeOut(2000,function(){$(`#mensajeria`).prop("class","alerta d-none")});
+     }, tiempo);
+}
+
 function eliminar_cheque(e){
-    $(`#caja_ch${e}`).fadeIn(4000,function(){$(`#caja_ch${e}`).css("background-color","white")});
-    $(`#caja_ch${e}`).fadeOut(3000,function(){$(`#caja_ch${e}`).remove()});
+    efecto_desaparecer("caja_ch",e);
     let usuario = sessionStorage.getItem("nomb_usu");
     let operaciones = [];
     operaciones = JSON.parse(localStorage.getItem(usuario));
@@ -164,13 +187,27 @@ function editar_cheque(agregar_cheque, operaciones, ch_actual, usuario){
     guardar_local(usuario, JSON.stringify(operaciones));
 }
 
-function totalizar_cheques(cant_op){
+function depurar_ops_sin_totales(){
     let usuario = sessionStorage.getItem("nomb_usu");
     let op = [];
     op = JSON.parse(localStorage.getItem(usuario));
-    let total = new totalizar(cant_op);
+    op.forEach((elem) => {
+        if (typeof elem.op_id != "undefined") {
+            let buscar = op.find(e => e.total_id == elem.op_id);
+                if (typeof buscar == "undefined") { 
+                    eliminar_op(elem.op_id);
+                };
+        };
+    });
+}
+
+function totalizar_cheques(contador_op){
+    let usuario = sessionStorage.getItem("nomb_usu");
+    let op = [];
+    op = JSON.parse(localStorage.getItem(usuario));
+    let total = new totalizar(contador_op);
     const fin = op.length;
-    let inicial = op.indexOf(op.find(e => e.op_id == cant_op)) + 1;
+    let inicial = op.indexOf(op.find(e => e.op_id == contador_op)) + 1;
     for (let i = inicial; i < fin; i++ ){
         total.sumar(op[i].ch_importe, op[i].ch_imp_int, op[i].ch_iva_10_5, op[i].ch_iva_1_5, op[i].ch_gastos_imp, op[i].ch_iva_21, op[i].ch_neto);
     }
@@ -179,18 +216,12 @@ function totalizar_cheques(cant_op){
     guardar_local(usuario, JSON.stringify(op));
 }
 
-function eliminar_op_historica(e){
-    $(`#tabla_op${e}`).fadeIn(4000,function(){$(`#tabla_op${e}`).css("background-color","white")});
-    $(`#tabla_op${e}`).fadeOut(3000,function(){$(`#tabla_op${e}`).remove()});
+function eliminar_op(e){
     let usuario = sessionStorage.getItem("nomb_usu");
     let operaciones = [];
     let operaciones_aux = [];
     operaciones = JSON.parse(localStorage.getItem(usuario));
-    //operaciones[0].cant_op = operaciones[0].cant_op - 1;
-    console.log("operaciones0");
-    console.log(operaciones);
-    console.log(e);
-    
+    operaciones[0].stock_op --;
     operaciones = operaciones.filter(elem => elem.op_id != e);
     operaciones = operaciones.filter(elem => elem.total_id != e);
     operaciones.forEach((elem) => {
@@ -201,10 +232,26 @@ function eliminar_op_historica(e){
                 operaciones_aux.push(elem);
             }
         });
-    console.log("operaciones");
-    console.log(operaciones_aux);
     localStorage.removeItem(usuario);
-    guardar_local(usuario, JSON.stringify(operaciones_aux));
+    if (operaciones_aux[0].stock_op > 0) {
+        guardar_local(usuario, JSON.stringify(operaciones_aux))
+    }else{
+        operaciones_aux = [{"contador_op":0,"stock_op":0}];
+        guardar_local(usuario, JSON.stringify(operaciones_aux))
+        setTimeout(function () {location.href = "simulacion.html"},1000);
+    }
+}
+
+function eliminar_op_formulario(e){
+    efecto_desaparecer("formu_operacion",e);
+    efecto_desaparecer("formu_cheques",e);
+    eliminar_op(e);
+}
+
+function eliminar_op_historica(e){
+    efecto_desaparecer("tabla_op",e);
+    efecto_desaparecer("tabla_detalle",e);
+    eliminar_op(e);
 }
 
 
@@ -213,7 +260,7 @@ function eliminar_op_historica(e){
 function calc_dias_int(dia1, dia2){
     dia2 = new Date(dia2);
     dia1 = new Date(dia1);
-    let diferencia= Math.abs(dia2-dia1);
+    let diferencia= dia2-dia1;
     let resultado = diferencia/(1000 * 3600 * 24);
     return resultado.toFixed(0)
 }
