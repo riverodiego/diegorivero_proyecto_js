@@ -75,23 +75,25 @@ function visualizar_tabla_feriados(feriados){
 }
 
 function construir_operacion_HTML(){
-    $("#formu_operacion").css('display', 'flex');
+    //$("#formu_operacion").css('display', 'flex');
     $("#formu_operacion").append(`
-        <label for="idop">Id Op:</label>
-        <input type="text" id="op_id" class="text-center" name="idop" value="" disabled=""/>
-        <label for="fechaliq">Fecha Liquidacion:</label>
-        <input type="text" id="op_fliq" class="text-center" name="fechaliq" value="" />
-        <label for="tasa">TNA (%): </label>
-        <input type="text" id="op_tna" class="text-center" name="tasa" value="" />
-        <label for="gastos">GASTOS (%): </label>
-        <input type="text" id="op_gastosporc" class="text-center" name="gastos" value="" />
-        <label for="ivapercep">IVA PERCEP: </label>
-        <select name="ivapercep" id="op_ivap" class="text-center">
-        <option value="seleccion" selected>Seleccione una opcion</option>
+        <div id="caja_op">
+        <label for="idop" class="col-8 text-center" >Id Op:</label>
+        <input type="text" id="op_id" class="col-8 text-center" name="idop" value="" disabled=""/>
+        <label for="fechaliq class="col-12">Fecha Liquidacion:</label>
+        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq"  placeholder="MM/DD/AAAA" value="" />
+        <label for="tasa" class="col-8">TNA (%): </label>
+        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" value="" />
+        <label for="gastos" class="col-8">GASTOS (%): </label>
+        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" value="" />
+        <label for="ivapercep" class="col-8">IVA PERCEP: </label>
+        <select name="ivapercep" id="op_ivap" class="col-8 text-center">
+        <option value="seleccion" class="col-6" selected>Seleccione una opcion</option>
         <option value="S">Si</option>
         <option value="N">No</option>
         </select>
         <button type="button" id="btn_cargar_ch">Cargar Cheques</button>
+        </div>
     `);
     $(`#btn_cargar_ch`).click( (e) => {
         e.preventDefault();
@@ -104,7 +106,7 @@ function construir_cheques_HTML(contador_op, cont) {
     $("#op_id").prop("value", contador_op);
     $("#formu_cheques").css('display', 'flex');
     $("#formu_cheques").append(`
-    <div id="caja_ch${contador}">
+    <div id="caja_ch${contador}" class="col-12">
     <label for="idch">Id Ch:</label>
     <input type="text" id="ch_id${contador}" class="idcheque" name="idch" value="${contador}" disabled=""/>
     <label for="chnro">Nro Ch:</label>
@@ -115,7 +117,7 @@ function construir_cheques_HTML(contador_op, cont) {
     <input type="text" id="imp_ch${contador}" class="importe" name="impch" value=""/>
     <button type="button" id="mas_ch${contador}" value="${contador}">Agregar Ch</button>
     </div>
-    <div id="caja_confirmar_op${contador}" class="text-center">
+    <div id="caja_confirmar_op${contador}" class="text-center col-12">
     <button type="button" id="confirmar_op${contador}" value="${contador_op}">Confirmar Op</button>
     <button type="button" id="cancelar_op${contador}" value="${contador_op}">Cancelar Op</button>
     </div>
@@ -141,7 +143,7 @@ function construir_cheques_HTML(contador_op, cont) {
     $(`#mas_ch${contador}`).click((e) => {
         e.preventDefault();
         $('html, body').animate({
-            scrollTop: $("#formu_cheques").offset().top}, 2000);
+            scrollTop: $("#formu_cheques").offset().top}, 1000);
         si_agrega = true;
         if (validar_cheque(e.target.value,si_agrega)==true){
             let contador = e.target.value;
@@ -149,9 +151,9 @@ function construir_cheques_HTML(contador_op, cont) {
             $(`#confirmar_op${contador}`).remove();
             $(`#cancelar_op${contador}`).remove();
             $(`#caja_confirmar_op${contador}`).remove();
-            $(`#ch_nro${contador}`).prop('disabled',true);
-            $(`#ch_f_vto${contador}`).prop('disabled',true);
-            $(`#imp_ch${contador}`).prop('disabled',true);
+            $(`#ch_nro${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
+            $(`#ch_f_vto${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
+            $(`#imp_ch${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
             $(`#caja_ch${contador}`).append(`
             <button type="button" id="eliminar_ch${contador}"  value="${contador}">Eliminar Ch</button>
             <button type="button" id="editar_ch${contador}"  value="${contador}">Editar Ch</button>
@@ -164,9 +166,9 @@ function construir_cheques_HTML(contador_op, cont) {
             $(`#confirmar_ch${contador}`).css('display', 'none');
             $(`#editar_ch${contador}`).click((e) => {
                 e.preventDefault();
-                $(`#ch_nro${contador}`).prop('disabled',false);
-                $(`#ch_f_vto${contador}`).prop('disabled',false);
-                $(`#imp_ch${contador}`).prop('disabled',false);
+                $(`#ch_nro${contador}`).prop('disabled',false).css("color", "black");
+                $(`#ch_f_vto${contador}`).prop('disabled',false).css("color", "black");
+                $(`#imp_ch${contador}`).prop('disabled',false).css("color", "black");
                 $(`#eliminar_ch${contador}`).prop('disabled',true);
                 $(`#editar_ch${contador}`).css('display', 'none');
                 $(`#confirmar_ch${contador}`).css('display', '');
@@ -175,9 +177,9 @@ function construir_cheques_HTML(contador_op, cont) {
                     si_agrega = false;
                     if (validar_cheque(e.target.value, si_agrega)==true){
                         $(`#eliminar_ch${contador}`).prop('disabled',false);
-                        $(`#ch_nro${contador}`).prop('disabled',true);
-                        $(`#ch_f_vto${contador}`).prop('disabled',true);
-                        $(`#imp_ch${contador}`).prop('disabled',true);
+                        $(`#ch_nro${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
+                        $(`#ch_f_vto${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
+                        $(`#imp_ch${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
                         $(`#confirmar_ch${contador}`).css('display', 'none');
                         $(`#editar_ch${contador}`).css('display', '');
                     };

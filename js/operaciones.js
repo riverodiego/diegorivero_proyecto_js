@@ -53,8 +53,8 @@ function validar_operacion(){
     let agregar_op = new operacion(operaciones[0].contador_op, "", 0, 0, "","");
     let error = document.getElementById("error");
     let fecha = new Date(document.getElementById("op_fliq").value);
-    let tna = document.getElementById("op_tna").value;
-    let gastos_porc = document.getElementById("op_gastosporc").value;
+    let tna = parseFloat(document.getElementById("op_tna").value);
+    let gastos_porc = parseFloat(document.getElementById("op_gastosporc").value);
     error.innerHTML= "";
     error.style.color = "red";
     if(fecha != "" && Date.parse(fecha)){
@@ -64,14 +64,14 @@ function validar_operacion(){
         error.innerHTML = "Debe ingresar una Fecha Liq valida Formato (MM/DD/AAAA). </br>"
         caja_borde_color("op_fliq","red")
     }
-    if( tna != "" && parseFloat(tna) ){
+    if( tna >= 0 ){
         agregar_op["op_tna"] = document.getElementById("op_tna").value
         caja_borde_color("op_tna","green")
     }else{
         error.innerHTML += "Debe ingresar valor numerico en TNA. </br>"
         caja_borde_color("op_tna","red")
     }
-    if( gastos_porc != "" && parseFloat(gastos_porc) ){
+    if( gastos_porc >= 0 ){
         agregar_op["op_gastos_porc"] = document.getElementById("op_gastosporc").value
         caja_borde_color("op_gastosporc","green")
     }else{
@@ -89,7 +89,7 @@ function validar_operacion(){
         operaciones.push(agregar_op);
         localStorage.removeItem(usuario);
         guardar_local(usuario, JSON.stringify(operaciones));
-        $("#formu_operacion").children().prop('disabled', true).css({"color": "grey", "border-color": "grey"});
+        $("#caja_op").children().prop('disabled', true).css({"color": "grey", "border-color": "grey"});
         construir_cheques_HTML(operaciones[0].contador_op, 1);
     }
 }
@@ -116,7 +116,7 @@ if(fecha != "" && Date.parse(fecha)){
         agregar_cheque["ch_f_vto"] = $(`#ch_f_vto${e}`).val();
         caja_borde_color(`ch_f_vto${e}`,"green")
     }else{
-        error.html = "Debe ingresar una Fecha Mayor a la Fecha de Liquidacion. </br>"
+        error.html = "Debe ingresar una Fecha Mayor a la Liquidacion. </br>"
         $("#error").html(error.html)
         caja_borde_color(`ch_f_vto${e}`,"red")
     }
