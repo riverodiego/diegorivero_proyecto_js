@@ -5,8 +5,6 @@ li {
 }
 
 form#formu_operacion {
-  /*display: flex;
-  flex-flow: column nowrap;*/
   text-align: center;
   background-color: rgb(167, 164, 164);
   width: 300px;
@@ -62,9 +60,15 @@ footer {
   text-align: center;
 }
 
-#Pantalla {
+#pantalla {
+  position: absolute;
+  height: 500px;
   background-color: rgb(112, 112, 112);
   border-radius: 6px;
+}
+
+#contenido {
+  height: 500px;
 }
 
 #error {
@@ -114,7 +118,6 @@ footer {
   background-color: aliceblue;
   margin: 3px;
   padding: 3px;
-  /*width: 60vw;*/
 }
 
 .caja_cheques {
@@ -137,11 +140,11 @@ footer {
 
 .alerta {
   background: #f8f8f8;
-  position: fixed;
-  top: 45vh;
-  bottom: 0;
-  left: 30vw;
-  right: 0;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -179,34 +182,55 @@ footer {
     margin: 1vh 2vw;
     max-width: 220px;
   }
+  form#formu_cheques {
+    margin: 1vh 2vw;
+    max-width: 220px;
+  }
 }
 
 @media (min-width: 344px) and (max-width: 575.98px) {
   form#formu_operacion {
-    margin: 1vh 5vw;
+    margin: 1vh 20vw;
+    max-width: 230px;
+  }
+  form#formu_cheques {
+    margin: 1vh 20vw;
     max-width: 230px;
   }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
   form#formu_operacion {
-    margin: 1vh 15vw;
+    margin: 1vh 25vw;
+  }
+  form#formu_cheques {
+    margin: 1vh 25vw;
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
   form#formu_operacion {
-    margin: 1vh 20vw;
+    margin: 1vh 25vw;
+  }
+  form#formu_cheques {
+    margin: 1vh 25vw;
   }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
   form#formu_operacion {
     margin: 1vh 30vw;
-    max-width: 250px;
+  }
+  form#formu_cheques {
+    margin: 1vh 18vw;
+    max-width: 600px;
   }
 }
 
 @media (min-width: 1200px) {
   form#formu_operacion {
     margin: 1vh 35vw;
+  }
+  form#formu_cheques {
+    margin: 1vh 16vw;
+    max-width: 800px;
   }
 }

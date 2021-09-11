@@ -81,15 +81,15 @@ function construir_operacion_HTML(){
         <label for="idop" class="col-8 text-center" >Id Op:</label>
         <input type="text" id="op_id" class="col-8 text-center" name="idop" value="" disabled=""/>
         <label for="fechaliq class="col-12">Fecha Liquidacion:</label>
-        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq"  placeholder="MM/DD/AAAA" value="" />
+        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq"  placeholder="MM/DD/AAAA" value="10/10/2021" />
         <label for="tasa" class="col-8">TNA (%): </label>
-        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" value="" />
+        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" value="1" />
         <label for="gastos" class="col-8">GASTOS (%): </label>
-        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" value="" />
+        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" value="1" />
         <label for="ivapercep" class="col-8">IVA PERCEP: </label>
         <select name="ivapercep" id="op_ivap" class="col-8 text-center">
-        <option value="seleccion" class="col-6" selected>Seleccione una opcion</option>
-        <option value="S">Si</option>
+        <option value="seleccion" class="col-6">Seleccione una opcion</option>
+        <option value="S" selected>Si</option>
         <option value="N">No</option>
         </select>
         <button type="button" id="btn_cargar_ch">Cargar Cheques</button>
@@ -106,18 +106,26 @@ function construir_cheques_HTML(contador_op, cont) {
     $("#op_id").prop("value", contador_op);
     $("#formu_cheques").css('display', 'flex');
     $("#formu_cheques").append(`
-    <div id="caja_ch${contador}" class="col-12">
-    <label for="idch">Id Ch:</label>
-    <input type="text" id="ch_id${contador}" class="idcheque" name="idch" value="${contador}" disabled=""/>
-    <label for="chnro">Nro Ch:</label>
-    <input type="text" id="ch_nro${contador}" class="chequenro" name="chnro" value=""/>
-    <label for="chfvto">F Vto: </label>
-    <input type="text" id="ch_f_vto${contador}" class="fecha" name="chfvto" value=""/>
-    <label for="impch">Importe: </label>
-    <input type="text" id="imp_ch${contador}" class="importe" name="impch" value=""/>
-    <button type="button" id="mas_ch${contador}" value="${contador}">Agregar Ch</button>
+    <div id="caja_ch${contador}" class="row justify-content-center">
+        <div id="caja_idch${contador}" class="col-3"> 
+            <label for="idch" class="d-block">Id Ch: </label>
+            <input type="text" id="ch_id${contador}" class="idcheque" name="idch" value="${contador}" disabled=""/>
+        </div>
+        <div id="caja_chnro${contador}" class="col-3">
+            <label for="chnro" class="d-block">Nro Ch:</label>
+            <input type="text" id="ch_nro${contador}" class="chequenro" name="chnro" value=""/>
+        </div>
+        <div id="caja_chfvto${contador}" class="col-3">
+            <label for="chfvto" class="d-block">F Vto: </label>
+            <input type="text" id="ch_f_vto${contador}" class="fecha" name="chfvto" value=""/>
+        </div>
+        <div id="caja_impch${contador}" class="col-3">
+            <label for="impch" class="d-block">Importe: </label>
+            <input type="text" id="imp_ch${contador}" class="importe" name="impch" value=""/>
+        </div>
+        <button type="button" id="mas_ch${contador}" value="${contador}">Agregar Ch</button>
     </div>
-    <div id="caja_confirmar_op${contador}" class="text-center col-12">
+    <div id="caja_confirmar_op${contador}" class="text-center col-12 mt-5">
     <button type="button" id="confirmar_op${contador}" value="${contador_op}">Confirmar Op</button>
     <button type="button" id="cancelar_op${contador}" value="${contador_op}">Cancelar Op</button>
     </div>

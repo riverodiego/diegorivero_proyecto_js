@@ -40,7 +40,7 @@ function inicializar () {
             }
             nombre.value = "";
             inicializar ();
-            tiempo_inactivo(120000);
+            tiempo_inactivo(6000);
             depurar_ops_sin_totales();
         };
     }

@@ -9,7 +9,8 @@ function caja_borde_color(id, color) {
 //DETECCION TIEMPO INACTIVO
 
 desconectar.onclick = () => {
-    tiempo_inactivo(15);
+    $("#desconectar").value = true;
+    tiempo_inactivo(5);
 }
 
 var tiempo_inactivo = function (corte) {
@@ -29,8 +30,9 @@ var tiempo_inactivo = function (corte) {
         sessionStorage.clear();
         document.getElementById("desconectar").className = "d-none";
         usuario.innerHTML = '';
-        alert("Tu session a expirado.");
-        location.href="index.html";
+        $("#desconectar").value == true ? alerta("Tu sesion a expirado", 300) : alerta("Desconectado", 300);
+        efecto_ocultar("contenido","");
+        setTimeout(function () {location.href = "index.html"},1500);
     }
 
     function resetear_tiempo() {
@@ -90,6 +92,7 @@ function validar_operacion(){
         localStorage.removeItem(usuario);
         guardar_local(usuario, JSON.stringify(operaciones));
         $("#caja_op").children().prop('disabled', true).css({"color": "grey", "border-color": "grey"});
+        $('html, body').animate({ scrollTop: $("#formu_operacion").offset().top}, 100);
         construir_cheques_HTML(operaciones[0].contador_op, 1);
     }
 }
@@ -161,12 +164,18 @@ function efecto_desaparecer(identificador,e){
     $(`#${identif}`).fadeOut(2000,function(){$(`#${identif}`).remove()});
 }
 
+function efecto_ocultar(identificador,e){
+    let identif = identificador+e;
+    $(`#${identif}`).fadeIn(2000,function(){$(`#${identif}`).css("background-color","grey")});
+    $(`#${identif}`).fadeOut(1000,function(){$(`#${identif}`).css({"display": "block","visibility":"hidden"})});
+}
+
 function alerta(mensaje, tiempo) {
     $("#mensajeria").prop("class", "alerta");
     $("#mensajeria").html(mensaje);
     setTimeout(function(){
-        $(`#mensajeria`).fadeIn(3000,function(){$(`#mensajeria`).css("background-color","white")});
-        $(`#mensajeria`).fadeOut(2000,function(){$(`#mensajeria`).prop("class","alerta d-none")});
+        $(`#mensajeria`).fadeIn(2000,function(){$(`#mensajeria`).css("background-color","white")});
+        $(`#mensajeria`).fadeOut(1000,function(){$(`#mensajeria`).prop("class","alerta d-none")});
      }, tiempo);
 }
 
