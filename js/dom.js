@@ -12,7 +12,7 @@ function construir_login(){
         <article id="caja_ingreso" class="col-8 col-md-6 col-lg-3 text-center">
         <h3>Ingresa tu nombre para operar</h3> 
         <input id="nombre" type="text" value="diego" /> 
-        <button type="button" id="btn_ingresar">Ingresar</button> 
+        <div><button type="button" id="btn_ingresar">Ingresar</button> </div>
         <div id="errorNombre" class="error"></div>  </article>`
         );
     const menu_nav = [{"id":"menu-inicio","estado":false,"ruta":"#","nombre":"Inicio","activo":""},
@@ -81,7 +81,7 @@ function construir_operacion_HTML(){
         <label for="idop" class="col-8 text-center" >Id Op:</label>
         <input type="text" id="op_id" class="col-8 text-center" name="idop" value="" disabled=""/>
         <label for="fechaliq class="col-12 text_center">Fecha Liquidacion:</label>
-        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq"  placeholder="MM/DD/AAAA" value="10/10/2021" />
+        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq" placeholder="MM/DD/AAAA" value="10/10/2021" />
         <label for="tasa" class="col-8 text-center">TNA (%): </label>
         <input type="text" id="op_tna" class="col-8 text-center" name="tasa" value="1" />
         <label for="gastos" class="col-8 text-center">GASTOS (%): </label>
@@ -107,19 +107,19 @@ function construir_cheques_HTML(contador_op, cont) {
     $("#formu_cheques").css({'display':'flex'});
     $("#formu_cheques").append(`
     <div id="caja_ch${contador}" class="row justify-content-between">
-        <div id="caja_idch${contador}" class="col-12 col-md-6  col-lg-3"> 
+        <div id="caja_idch${contador}" class="col-12 col-md-6  col-lg-3 text-center"> 
             <label for="idch" class="d-block">Id Ch: </label>
             <input type="text" id="ch_id${contador}" class="idcheque" name="idch" value="${contador}" disabled=""/>
         </div>
-        <div id="caja_chnro${contador}" class="col-12 col-md-6 col-lg-3">
+        <div id="caja_chnro${contador}" class="col-12 col-md-6 col-lg-3 text-center">
             <label for="chnro" class="d-block">Nro Ch:</label>
             <input type="text" id="ch_nro${contador}" class="chequenro" name="chnro" value=""/>
         </div>
-        <div id="caja_chfvto${contador}" class="col-12 col-md-6 col-lg-3">
+        <div id="caja_chfvto${contador}" class="col-12 col-md-6 col-lg-3 text-center">
             <label for="chfvto" class="d-block">F Vto: </label>
-            <input type="text" id="ch_f_vto${contador}" class="fecha" name="chfvto" value=""/>
+            <input type="text" id="ch_f_vto${contador}" class="fecha" placeholder="MM/DD/AAAA" name="chfvto" value=""/>
         </div>
-        <div id="caja_impch${contador}" class="col-12 col-md-6 col-lg-3">
+        <div id="caja_impch${contador}" class="col-12 col-md-6 col-lg-3 text-center">
             <label for="impch" class="d-block">Importe: </label>
             <input type="text" id="imp_ch${contador}" class="importe" name="impch" value=""/>
         </div>
