@@ -69,12 +69,12 @@ html {
 body {
   background-color: rgb(112, 112, 112);
   border-radius: 6px;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 main {
   margin-top: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 #error {
