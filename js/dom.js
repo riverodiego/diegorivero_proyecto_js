@@ -77,22 +77,22 @@ function visualizar_tabla_feriados(feriados){
 function construir_operacion_HTML(){
     //$("#formu_operacion").css('display', 'flex');
     $("#formu_operacion").append(`
-        <div id="caja_op">
+        <div id="caja_op" class="row justify-content-center">
         <label for="idop" class="col-8 text-center" >Id Op:</label>
         <input type="text" id="op_id" class="col-8 text-center" name="idop" value="" disabled=""/>
-        <label for="fechaliq class="col-12">Fecha Liquidacion:</label>
+        <label for="fechaliq class="col-12 text_center">Fecha Liquidacion:</label>
         <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq"  placeholder="MM/DD/AAAA" value="10/10/2021" />
-        <label for="tasa" class="col-8">TNA (%): </label>
+        <label for="tasa" class="col-8 text-center">TNA (%): </label>
         <input type="text" id="op_tna" class="col-8 text-center" name="tasa" value="1" />
-        <label for="gastos" class="col-8">GASTOS (%): </label>
+        <label for="gastos" class="col-8 text-center">GASTOS (%): </label>
         <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" value="1" />
-        <label for="ivapercep" class="col-8">IVA PERCEP: </label>
+        <label for="ivapercep" class="col-8 text-center">IVA PERCEP: </label>
         <select name="ivapercep" id="op_ivap" class="col-8 text-center">
         <option value="seleccion" class="col-6">Seleccione una opcion</option>
         <option value="S" selected>Si</option>
         <option value="N">No</option>
         </select>
-        <button type="button" id="btn_cargar_ch">Cargar Cheques</button>
+        <button type="button" id="btn_cargar_ch" class="mt-3">Cargar Cheques</button>
         </div>
     `);
     $(`#btn_cargar_ch`).click( (e) => {
@@ -104,32 +104,35 @@ function construir_operacion_HTML(){
 function construir_cheques_HTML(contador_op, cont) {
     let contador = "op"+ contador_op + "ch" + cont;
     $("#op_id").prop("value", contador_op);
-    $("#formu_cheques").css('display', 'flex');
+    $("#formu_cheques").css({'display':'flex'});
     $("#formu_cheques").append(`
-    <div id="caja_ch${contador}" class="row justify-content-center">
-        <div id="caja_idch${contador}" class="col-3"> 
+    <div id="caja_ch${contador}" class="row justify-content-between">
+        <div id="caja_idch${contador}" class="col-12 col-md-6  col-lg-3"> 
             <label for="idch" class="d-block">Id Ch: </label>
             <input type="text" id="ch_id${contador}" class="idcheque" name="idch" value="${contador}" disabled=""/>
         </div>
-        <div id="caja_chnro${contador}" class="col-3">
+        <div id="caja_chnro${contador}" class="col-12 col-md-6 col-lg-3">
             <label for="chnro" class="d-block">Nro Ch:</label>
             <input type="text" id="ch_nro${contador}" class="chequenro" name="chnro" value=""/>
         </div>
-        <div id="caja_chfvto${contador}" class="col-3">
+        <div id="caja_chfvto${contador}" class="col-12 col-md-6 col-lg-3">
             <label for="chfvto" class="d-block">F Vto: </label>
             <input type="text" id="ch_f_vto${contador}" class="fecha" name="chfvto" value=""/>
         </div>
-        <div id="caja_impch${contador}" class="col-3">
+        <div id="caja_impch${contador}" class="col-12 col-md-6 col-lg-3">
             <label for="impch" class="d-block">Importe: </label>
             <input type="text" id="imp_ch${contador}" class="importe" name="impch" value=""/>
         </div>
+    </div>
+    <div id="caja_botones_ch${contador}" class="text-center mt-2">
         <button type="button" id="mas_ch${contador}" value="${contador}">Agregar Ch</button>
     </div>
-    <div id="caja_confirmar_op${contador}" class="text-center col-12 mt-5">
-    <button type="button" id="confirmar_op${contador}" value="${contador_op}">Confirmar Op</button>
-    <button type="button" id="cancelar_op${contador}" value="${contador_op}">Cancelar Op</button>
+    <div id="caja_confirmar_op${contador}" class="text-center mt-2">
+        <button type="button" id="confirmar_op${contador}" value="${contador_op}">Confirmar Op</button>
+        <button type="button" id="cancelar_op${contador}" value="${contador_op}">Cancelar Op</button>
     </div>
     `);
+    $('html, body').animate({ scrollTop: $("#formu_cheques").offset().top}, 1000);
     $(`#confirmar_op${contador}`).click((e) => {
         e.preventDefault();
         if (cont > 1){
@@ -150,8 +153,7 @@ function construir_cheques_HTML(contador_op, cont) {
     });
     $(`#mas_ch${contador}`).click((e) => {
         e.preventDefault();
-        $('html, body').animate({
-            scrollTop: $("#formu_cheques").offset().top}, 1000);
+        $('html, body').animate({ scrollTop: $("#formu_cheques").offset().top}, 1000);
         si_agrega = true;
         if (validar_cheque(e.target.value,si_agrega)==true){
             let contador = e.target.value;
@@ -162,7 +164,7 @@ function construir_cheques_HTML(contador_op, cont) {
             $(`#ch_nro${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
             $(`#ch_f_vto${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
             $(`#imp_ch${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
-            $(`#caja_ch${contador}`).append(`
+            $(`#caja_botones_ch${contador}`).append(`
             <button type="button" id="eliminar_ch${contador}"  value="${contador}">Eliminar Ch</button>
             <button type="button" id="editar_ch${contador}"  value="${contador}">Editar Ch</button>
             <button type="button" id="confirmar_ch${contador}"  value="${contador}">Confirmar Ch</button>
@@ -283,6 +285,7 @@ function construir_resultado_HTML(operac, cheques, total){
         let tabla_detalle = $(`#tabla_detalle${operac.op_id}`);
         if (tabla_detalle.hasClass(`d-none`)) {
             tabla_detalle.removeClass("d-none");
+            $('html, body').animate({ scrollTop: tabla_detalle.offset().top}, 100);
             $(`#mostrar_op${operac.op_id}`).html("Ocultar");
         } else{
             tabla_detalle.addClass("d-none");

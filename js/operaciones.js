@@ -6,10 +6,23 @@ function caja_borde_color(id, color) {
     document.getElementById(id).style.border = "1px Solid " + color
 }
 
+// ESCONDEMOS EL FOOTER
+
+let ubicacion_principal = window.pageYOffset;
+window.onscroll = function () {
+    let desplazamiento_actual = window.pageYOffset;
+    if (ubicacion_principal >= desplazamiento_actual){
+        $('#pie').css("bottom",'-100px');
+    }else{
+        $('#pie').css("bottom",'0');
+    }
+}
+
+
 //DETECCION TIEMPO INACTIVO
 
 desconectar.onclick = () => {
-    $("#desconectar").value = true;
+    $("#desconectar").prop("value","true");
     tiempo_inactivo(5);
 }
 
@@ -28,9 +41,9 @@ var tiempo_inactivo = function (corte) {
 
     function deslogueo() {
         sessionStorage.clear();
-        document.getElementById("desconectar").className = "d-none";
+        $("#desconectar").css({"visibility":"hidden"});
         usuario.innerHTML = '';
-        $("#desconectar").value == true ? alerta("Tu sesion a expirado", 300) : alerta("Desconectado", 300);
+        $("#desconectar").val() == "true" ? alerta("Desconectado", 300) : alerta("Tu sesion a expirado", 300);
         efecto_ocultar("contenido","");
         setTimeout(function () {location.href = "index.html"},1500);
     }
@@ -92,7 +105,7 @@ function validar_operacion(){
         localStorage.removeItem(usuario);
         guardar_local(usuario, JSON.stringify(operaciones));
         $("#caja_op").children().prop('disabled', true).css({"color": "grey", "border-color": "grey"});
-        $('html, body').animate({ scrollTop: $("#formu_operacion").offset().top}, 100);
+        $('html, body').animate({ scrollTop: $("#formu_operacion").offset().top}, 1000);
         construir_cheques_HTML(operaciones[0].contador_op, 1);
     }
 }
@@ -181,6 +194,7 @@ function alerta(mensaje, tiempo) {
 
 function eliminar_cheque(e){
     efecto_desaparecer("caja_ch",e);
+    efecto_desaparecer("caja_botones_ch",e);
     let usuario = sessionStorage.getItem("nomb_usu");
     let operaciones = [];
     operaciones = JSON.parse(localStorage.getItem(usuario));

@@ -53,6 +53,7 @@ button {
   border: 2px solid rgb(63, 63, 245);
   background-color: rgb(198, 198, 243);
   border-radius: 6px;
+  width: max-content;
 }
 
 header,
@@ -62,13 +63,12 @@ footer {
 
 #pantalla {
   position: absolute;
-  height: 500px;
   background-color: rgb(112, 112, 112);
   border-radius: 6px;
 }
 
 #contenido {
-  height: 500px;
+  margin-bottom: 50px;
 }
 
 #error {
@@ -186,6 +186,9 @@ footer {
     margin: 1vh 2vw;
     max-width: 220px;
   }
+  #pie {
+    visibility: hidden;
+  }
 }
 
 @media (min-width: 344px) and (max-width: 575.98px) {
@@ -196,6 +199,12 @@ footer {
   form#formu_cheques {
     margin: 1vh 20vw;
     max-width: 230px;
+  }
+  #pie {
+    visibility: visible;
+  }
+  footer {
+    position: static;
   }
 }
 
@@ -215,6 +224,7 @@ footer {
     margin: 1vh 25vw;
   }
 }
+
 @media (min-width: 992px) and (max-width: 1199.98px) {
   form#formu_operacion {
     margin: 1vh 30vw;
@@ -222,6 +232,12 @@ footer {
   form#formu_cheques {
     margin: 1vh 18vw;
     max-width: 600px;
+  }
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 40%;
+    transform: translate(-30%);
   }
 }
 
