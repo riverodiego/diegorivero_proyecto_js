@@ -75,17 +75,16 @@ function visualizar_tabla_feriados(feriados){
 }
 
 function construir_operacion_HTML(){
-    //$("#formu_operacion").css('display', 'flex');
     $("#formu_operacion").append(`
         <div id="caja_op" class="row justify-content-center">
         <label for="idop" class="col-8 text-center" >Id Op:</label>
         <input type="text" id="op_id" class="col-8 text-center" name="idop" value="" disabled=""/>
         <label for="fechaliq class="col-12 text_center">Fecha Liquidacion:</label>
-        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq" placeholder="MM/DD/AAAA" value="10/10/2021" />
+        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq" placeholder="DD/MM/AAAA" maxlength="10" value="10/10/2021" />
         <label for="tasa" class="col-8 text-center">TNA (%): </label>
-        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" value="1" />
+        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" maxlength="3" value="1" />
         <label for="gastos" class="col-8 text-center">GASTOS (%): </label>
-        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" value="1" />
+        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" maxlength="2" value="1" />
         <label for="ivapercep" class="col-8 text-center">IVA PERCEP: </label>
         <select name="ivapercep" id="op_ivap" class="col-8 text-center">
         <option value="seleccion" class="col-6">Seleccione una opcion</option>
@@ -98,6 +97,23 @@ function construir_operacion_HTML(){
     $(`#btn_cargar_ch`).click( (e) => {
         e.preventDefault();
         validar_operacion();
+    });
+    $(`#op_fliq`).keyup( (e) => {
+        e.preventDefault();
+        let etiqueta = `#op_fliq`;
+        let valor = $(etiqueta).val();
+        $(etiqueta).val(control_tipeo_fechas(e, etiqueta, valor));
+    });
+    $(`#op_fliq`).blur( (e) => {
+        e.preventDefault();
+        let etiqueta = `#op_fliq`;
+        let fecha = $(etiqueta).val();
+        if (fecha.length < 10 && fecha.length > 0) {
+            setTimeout(function() {
+                $(etiqueta).focus();
+                $(etiqueta).select();
+            }, 10);
+        }
     });
 }
 
@@ -117,7 +133,7 @@ function construir_cheques_HTML(contador_op, cont) {
         </div>
         <div id="caja_chfvto${contador}" class="col-12 col-md-6 col-lg-3 text-center">
             <label for="chfvto" class="d-block">F Vto: </label>
-            <input type="text" id="ch_f_vto${contador}" class="fecha" placeholder="MM/DD/AAAA" name="chfvto" value=""/>
+            <input type="text" id="ch_f_vto${contador}" class="fecha tipeo_fechas" placeholder="DD/MM/AAAA" name="chfvto" maxlength="10" value=""/>
         </div>
         <div id="caja_impch${contador}" class="col-12 col-md-6 col-lg-3 text-center">
             <label for="impch" class="d-block">Importe: </label>
@@ -133,6 +149,23 @@ function construir_cheques_HTML(contador_op, cont) {
     </div>
     `);
     $('html, body').animate({ scrollTop: $("#formu_cheques").offset().top}, 1000);
+    $(`#ch_f_vto${contador}`).keyup( (e) => {
+        e.preventDefault();
+        let etiqueta = `#ch_f_vto${contador}`;
+        let valor = $(etiqueta).val();
+        $(etiqueta).val(control_tipeo_fechas(e, etiqueta, valor));
+    });
+    $(`#ch_f_vto${contador}`).blur( (e) => {
+        e.preventDefault();
+        let etiqueta = `#ch_f_vto${contador}`;
+        let fecha = $(etiqueta).val();
+        if (fecha.length < 10 && fecha.length > 0) {
+            setTimeout(function() {
+                $(etiqueta).focus();
+                $(etiqueta).select();
+            }, 10);
+        }
+    });
     $(`#confirmar_op${contador}`).click((e) => {
         e.preventDefault();
         if (cont > 1){
@@ -179,14 +212,31 @@ function construir_cheques_HTML(contador_op, cont) {
                 $(`#ch_nro${contador}`).prop('disabled',false).css("color", "black");
                 $(`#ch_f_vto${contador}`).prop('disabled',false).css("color", "black");
                 $(`#imp_ch${contador}`).prop('disabled',false).css("color", "black");
-                $(`#eliminar_ch${contador}`).prop('disabled',true);
+                $(`#eliminar_ch${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
                 $(`#editar_ch${contador}`).css('display', 'none');
                 $(`#confirmar_ch${contador}`).css('display', '');
                 $(`#confirmar_ch${contador}`).click((e) => {
                     e.preventDefault();
+                    $(`#ch_f_vto${contador}`).keyup( (e) => {
+                        e.preventDefault();
+                        let etiqueta = `#ch_f_vto${contador}`;
+                        let valor = $(etiqueta).val();
+                        $(etiqueta).val(control_tipeo_fechas(e, etiqueta, valor));
+                    });
+                    $(`#ch_f_vto${contador}`).blur( (e) => {
+                        e.preventDefault();
+                        let etiqueta = `#ch_f_vto${contador}`;
+                        let fecha = $(etiqueta).val();
+                        if (fecha.length < 10 && fecha.length > 0) {
+                            setTimeout(function() {
+                                $(etiqueta).focus();
+                                $(etiqueta).select();
+                            }, 10);
+                        }
+                    });
                     si_agrega = false;
                     if (validar_cheque(e.target.value, si_agrega)==true){
-                        $(`#eliminar_ch${contador}`).prop('disabled',false);
+                        $(`#eliminar_ch${contador}`).prop('disabled',false).css({"color": "rgb(63, 63, 245)", "border-color": "rgb(63, 63, 245)"});
                         $(`#ch_nro${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
                         $(`#ch_f_vto${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});
                         $(`#imp_ch${contador}`).prop('disabled',true).css({"color": "grey", "border-color": "grey"});

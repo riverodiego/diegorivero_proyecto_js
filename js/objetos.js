@@ -26,7 +26,7 @@ class cheque{
         this.ch_neto = 0;
     }
     descontar(op_f_liq,op_tna,op_gastos_porc,op_iva_percep){
-        this.ch_dias_int = calc_dias_int(op_f_liq,this.ch_f_vto)
+        this.ch_dias_int = calc_dias_int(op_f_liq,convertir_fecha_mda(this.ch_f_vto))
         this.ch_imp_int = calc_imp_int(this.ch_importe, this.ch_dias_int, op_tna)
         this.ch_imp_int = parseFloat(this.ch_imp_int).toFixed(2)
         this.ch_iva_10_5 = calc_iva_10_5(this.ch_imp_int)

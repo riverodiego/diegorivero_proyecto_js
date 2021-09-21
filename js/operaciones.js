@@ -59,6 +59,11 @@ var tiempo_inactivo = function (corte) {
 
 //FUNCIONES PARA VALIDAR DATOS OPERACION Y CARGAR LOS CHEQUES
 
+function convertir_fecha_mda(fecha){
+    let resultado = fecha.substring(3,6) + fecha.substring(0,3) + fecha.substring(6,10);
+    return resultado;
+}
+
 function validar_operacion(){
     let usuario = sessionStorage.getItem("nomb_usu");
     let operaciones = [];
@@ -67,16 +72,17 @@ function validar_operacion(){
     operaciones[0].stock_op ++;
     let agregar_op = new operacion(operaciones[0].contador_op, "", 0, 0, "","");
     let error = document.getElementById("error");
-    let fecha = new Date(document.getElementById("op_fliq").value);
+    let fecha_str_mda = convertir_fecha_mda(document.getElementById("op_fliq").value);
+    fecha_date = new Date(fecha_str_mda);
     let tna = parseFloat(document.getElementById("op_tna").value);
     let gastos_porc = parseFloat(document.getElementById("op_gastosporc").value);
     error.innerHTML= "";
     error.style.color = "red";
-    if(fecha != "" && Date.parse(fecha)){
+    if(fecha_date != "" && Date.parse(fecha_date) && fecha_date.getFullYear() > 2020){
         agregar_op["op_f_liq"] = document.getElementById("op_fliq").value
         caja_borde_color("op_fliq","green")
     }else{
-        error.innerHTML = "Debe ingresar una Fecha Liq valida Formato (MM/DD/AAAA). </br>"
+        error.innerHTML = "Debe ingresar una Fecha Liq valida. </br>"
         caja_borde_color("op_fliq","red")
     }
     if( tna >= 0 ){
@@ -118,26 +124,27 @@ function validar_cheque(e,si_agrega){
     let op_actual = operaciones.find(elem => elem.op_id == op_id.toString());
     let ch_actual = operaciones.find(elem => elem.ch_id == e);
     let error = $("#error");
-    let fecha = new Date($(`#ch_f_vto${e}`).val());
-    let fecha_string = $(`#ch_f_vto${e}`).val();
+    let fecha_str_mda = convertir_fecha_mda($(`#ch_f_vto${e}`).val());
+    let fecha_date = new Date(fecha_str_mda);
     let ch_nro = $(`#ch_nro${e}`).val();
     let imp_ch = $(`#imp_ch${e}`).val();
     let agregar_cheque = new cheque(e, 0, "", 0); 
+    let fecha_liq_op = convertir_fecha_mda(op_actual.op_f_liq);
     error.html = "";
     error.css("color","red");
-if(fecha != "" && Date.parse(fecha)){
-    let plazo = calc_dias_int(op_actual.op_f_liq, fecha_string);
+if(fecha_date != "" && Date.parse(fecha_date) && fecha_date.getFullYear() > 2020){
+    let plazo = calc_dias_int(fecha_liq_op, fecha_str_mda);
     plazo = parseInt(plazo);
     if (plazo > 0){
         agregar_cheque["ch_f_vto"] = $(`#ch_f_vto${e}`).val();
         caja_borde_color(`ch_f_vto${e}`,"green")
     }else{
-        error.html = "Debe ingresar una Fecha Mayor a la Liquidacion. </br>"
+        error.html = "Debe ingresar una Fecha Mayor a la de Liquidacion. </br>"
         $("#error").html(error.html)
         caja_borde_color(`ch_f_vto${e}`,"red")
     }
 }else{
-    error.html = "Debe ingresar una Fecha Vto valida Formato (MM/DD/AAAA). </br>"
+    error.html = "Debe ingresar una Fecha Vto valida. </br>"
     $("#error").html(error.html)
     caja_borde_color(`ch_f_vto${e}`,"red")
 }
@@ -159,7 +166,7 @@ if( imp_ch != "" && parseFloat(imp_ch) ){
 }
 if(error.html == ""){
     $("#error").html("");
-    agregar_cheque.descontar(op_actual.op_f_liq, op_actual.op_tna, op_actual.op_gastos_porc, op_actual.op_iva_percep);
+    agregar_cheque.descontar(fecha_liq_op, op_actual.op_tna, op_actual.op_gastos_porc, op_actual.op_iva_percep);
     if (si_agrega) {
         operaciones.push(agregar_cheque);
         localStorage.removeItem(usuario);
