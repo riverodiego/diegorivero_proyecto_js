@@ -80,11 +80,11 @@ function construir_operacion_HTML(){
         <label for="idop" class="col-8 text-center" >Id Op:</label>
         <input type="text" id="op_id" class="col-8 text-center" name="idop" value="" disabled=""/>
         <label for="fechaliq class="col-12 text_center">Fecha Liquidacion:</label>
-        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq" placeholder="DD/MM/AAAA" maxlength="10" value="10/10/2021" />
+        <input type="text" id="op_fliq" class="col-8 text-center" name="fechaliq" placeholder="DD/MM/AAAA" maxlength="10" value="" />
         <label for="tasa" class="col-8 text-center">TNA (%): </label>
-        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" maxlength="3" value="1" />
+        <input type="text" id="op_tna" class="col-8 text-center" name="tasa" maxlength="3" value="" />
         <label for="gastos" class="col-8 text-center">GASTOS (%): </label>
-        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" maxlength="2" value="1" />
+        <input type="text" id="op_gastosporc" class="col-8 text-center" name="gastos" maxlength="2" value="" />
         <label for="ivapercep" class="col-8 text-center">IVA PERCEP: </label>
         <select name="ivapercep" id="op_ivap" class="col-8 text-center">
         <option value="seleccion" class="col-6">Seleccione una opcion</option>
