@@ -21,6 +21,8 @@ window.onscroll = function () {
 
 //DETECCION TIEMPO INACTIVO
 
+let desconectar = document.getElementById("desconectar");
+
 desconectar.onclick = () => {
     $("#desconectar").prop("value","true");
     tiempo_inactivo(5);

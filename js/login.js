@@ -11,8 +11,6 @@ neta final del credito al cliente*/
 
 let btn_ingresar;
 
-let desconectar = document.getElementById("desconectar");
-
 sessionStorage.length == 2 ? inicializar() : btn_ingresar = construir_login();
 
 function inicializar () {
