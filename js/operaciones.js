@@ -25,7 +25,7 @@ let desconectar = document.getElementById("desconectar");
 
 desconectar.onclick = () => {
     $("#desconectar").prop("value","true");
-    tiempo_inactivo(5);
+    tiempo_inactivo();
 }
 
 function tiempo_inactivo(corte) {
