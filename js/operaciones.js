@@ -28,7 +28,7 @@ desconectar.onclick = () => {
     tiempo_inactivo(5);
 }
 
-var tiempo_inactivo = function (corte) {
+function tiempo_inactivo(corte) {
     var tiempo;
     window.onload = resetear_tiempo;
     // DOM Events
