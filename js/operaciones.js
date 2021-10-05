@@ -25,10 +25,10 @@ let desconectar = document.getElementById("desconectar");
 
 desconectar.onclick = () => {
     $("#desconectar").prop("value","true");
-    tiempo_inactivo();
+    tiempo_inactivo(5);
 }
 
-function tiempo_inactivo(corte) {
+var tiempo_inactivo = function (corte) {
     var tiempo;
     window.onload = resetear_tiempo;
     // DOM Events
@@ -52,7 +52,7 @@ function tiempo_inactivo(corte) {
 
     function resetear_tiempo() {
         clearTimeout(tiempo);
-        if (sessionStorage.length > 1 && corte != 0) {
+        if (sessionStorage.length > 0 && corte != 0) {
             tiempo = setTimeout(deslogueo, corte);
         }
         // 1000 milliseconds = 1 second

@@ -11,7 +11,7 @@ neta final del credito al cliente*/
 
 let btn_ingresar;
 
-sessionStorage.length == 2 ? inicializar() : btn_ingresar = construir_login();
+sessionStorage.length == 1 ? inicializar() : btn_ingresar = construir_login();
 
 function inicializar () {
     let ingreso = document.getElementById("ingreso");
@@ -38,7 +38,7 @@ function inicializar () {
             }
             nombre.value = "";
             inicializar ();
-            tiempo_inactivo(120000);
+            tiempo_inactivo(9000);
             depurar_ops_sin_totales();
         };
     }
